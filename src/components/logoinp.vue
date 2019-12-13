@@ -16,7 +16,7 @@
 // import { Toast } from "vant";
 export default {
   // rule 正则表达式
-  props: ["type", "value", "rules", "megerror"],
+  props: ["value", "rules", "megerror", "type"],
   data() {
     return {
       state: false
@@ -26,7 +26,7 @@ export default {
   methods: {
     // 响应文本框失去焦点，如果有并且输入不合法，给出相应提示
     handblur(event) {
-      if (!this.rules.test(event.target.value)) {
+      if (this.rules && !this.rules.test(event.target.value)) {
         this.$toast.fail(this.megerror);
         // console.log(this.megerror);
       }
@@ -38,10 +38,14 @@ export default {
       let value = event.target.value;
       // 正则表达式 验证输入法是否合法
 
-      if (this.rules && this.rules.test(value)) {
-        this.state = true;
+      if (this.rules) {
+        if (this.rules.test(value)) {
+          this.state = true;
+        } else {
+          this.state = false;
+        }
       } else {
-        this.state = false;
+        this.state = !!value;
       }
 
       // 发生输入框改变的值

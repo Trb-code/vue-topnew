@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { logi } from "../components/myaxios/API.js";
 import logobtn from "@/components/logobutton.vue";
 import logoinp from "@/components/logoinp.vue";
 
@@ -52,7 +53,23 @@ export default {
   //   接受子组件传过来的点击事件
   methods: {
     login() {
-      console.log(this.user);
+      logi(this.user)
+        .then(res => {
+          console.log(res);
+          // 登录成功
+          if (res.data.message === "登录成功") {
+            // 登录成功需要跳转的页面
+            this.$router.push({ path: `/personal/${res.data.data.user.id}` });
+            // 本地储蓄token值，后续需要用到
+            localStorage.setItem("newtoken", res.data.data.token);
+          } else {
+            // 登录失败
+            this.$toast.fail(res.data.message);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     // 输入内容变化
     handinput(data) {
