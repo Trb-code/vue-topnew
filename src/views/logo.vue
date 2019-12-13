@@ -9,7 +9,15 @@
       </div>
       <div class="inputs">
         <!-- 输入框组件 -->
-        <logoinp type="text" :value="user.username" @input="handinput"></logoinp>
+        <logoinp
+          type="text"
+          :value="user.username"
+          @input="handinput"
+          :rules="
+            /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/
+          "
+          megerror="手机号码不合法"
+        ></logoinp>
         <logoinp type="password" v-model="user.password"></logoinp>
       </div>
       <p class="tips">
@@ -55,6 +63,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
+// 网络图标
+@import url("http://at.alicdn.com/t/font_1426139_h6vn3jbl5q.css");
 .ueslogo {
   padding: 20px;
   background-color: #eee;

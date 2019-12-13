@@ -1,17 +1,50 @@
 <template>
   <div>
     <!-- 输入框封装 -->
-    <input :type="type" class="inp" :value="value" @input="handinput" />
+    <input
+      :type="type"
+      class="inp"
+      :value="value"
+      @input="handinput"
+      @blur="handblur"
+      :class="{ error: !state, cg: state }"
+    />
   </div>
 </template>
 
 <script>
+// import { Toast } from "vant";
 export default {
-  props: ["type", "value"],
+  // rule 正则表达式
+  props: ["type", "value", "rules", "megerror"],
+  data() {
+    return {
+      state: false
+    };
+  },
+
   methods: {
-    // 输入内容发生改变，告诉父组件
+    // 响应文本框失去焦点，如果有并且输入不合法，给出相应提示
+    handblur(event) {
+      if (!this.rules.test(event.target.value)) {
+        this.$toast.fail(this.megerror);
+        // console.log(this.megerror);
+      }
+    },
+
+    // 输入内容发生改变，告诉父组件,响应文本框变化
     handinput(event) {
+      // 获取输入框的内容
       let value = event.target.value;
+      // 正则表达式 验证输入法是否合法
+
+      if (this.rules && this.rules.test(value)) {
+        this.state = true;
+      } else {
+        this.state = false;
+      }
+
+      // 发生输入框改变的值
       this.$emit("input", value);
     }
   }
@@ -28,5 +61,11 @@ export default {
   font-size: 18px;
   margin: 5px 0;
   background-color: transparent;
+}
+.error {
+  border-bottom-color: red;
+}
+.cg {
+  border-bottom-color: green;
 }
 </style>
