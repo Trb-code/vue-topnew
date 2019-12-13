@@ -1,13 +1,19 @@
 <template>
   <!-- // 按钮封装 -->
-  <div class="btn">
+  <div class="btn" @click="handclick">
     {{ text }}
   </div>
 </template>
 
 <script>
 export default {
-  props: ["text"]
+  props: ["text"],
+  // 子组件绑定点击事件
+  methods: {
+    handclick(event) {
+      this.$emit("click", event);
+    }
+  }
 };
 </script>
 

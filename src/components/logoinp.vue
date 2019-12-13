@@ -1,13 +1,20 @@
 <template>
   <div>
     <!-- 输入框封装 -->
-    <input type="text" class="inp" />
+    <input :type="type" class="inp" :value="value" @input="handinput" />
   </div>
 </template>
 
 <script>
 export default {
-  props: ["type"]
+  props: ["type", "value"],
+  methods: {
+    // 输入内容发生改变，告诉父组件
+    handinput(event) {
+      let value = event.target.value;
+      this.$emit("input", value);
+    }
+  }
 };
 </script>
 
