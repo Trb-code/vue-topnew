@@ -20,11 +20,12 @@
         ></logoinp>
         <logoinp type="password" v-model="user.password"></logoinp>
       </div>
-      <p class="tips">
-        没有账号？
-        <a href="#/register" class>去注册</a>
-      </p>
-
+      <router-link to="/register">
+        <p class="tips">
+          没有账号？
+          <a href="#/register" class>去注册</a>
+        </p>
+      </router-link>
       <!-- 封装好的按钮 -->
       <logobtn text="登录" @click="login"></logobtn>
     </div>

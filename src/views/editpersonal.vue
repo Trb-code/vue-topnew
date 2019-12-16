@@ -62,7 +62,7 @@ export default {
   mounted() {
     // 实现获取编辑数据
     this.id = this.$route.params.id;
-    // console.log(this.$route.params.id);
+    console.log(this.$route);
     edituser(this.id)
       .then(res => {
         console.log(res);
@@ -87,7 +87,7 @@ export default {
       formdata.append("file", file.file);
       upolad(formdata)
         .then(async res => {
-          console.log(res);
+          // console.log(res);
           if (res.data.message === "文件上传成功") {
             // 实现用户头像更新;
             let res1 = await edituser(this.id, { head_img: res.data.data.url });
@@ -102,8 +102,8 @@ export default {
             this.$toast.fail("文件上传失败请重试");
           }
         })
-        .catch(res => {
-          console.log(res);
+        .catch(err => {
+          console.log(err);
         });
     },
     // 修改昵称————————————————————————————————————————————————————————————————————————————————————————————-

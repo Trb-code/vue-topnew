@@ -5,6 +5,7 @@ import logo from "@/views/logo.vue"
 import personal from "../views/personal.vue"
 import editpersonal from "../views/editpersonal.vue"
 import index from "../views/index.vue"
+import register from "../views/register.vue"
 
 
 vue.use(vuerouter)
@@ -14,6 +15,11 @@ var router = new vuerouter({
             name: "index",
             path: "/",
             component: index
+        },
+        {
+            name: "register",
+            path: "/register",
+            component: register
         },
         {
             name: "logo",

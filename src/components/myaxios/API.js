@@ -19,6 +19,17 @@ export const personal = (id) => {
 
     })
 }
+// 注册
+export const register = (data) => {
+    return axios({
+        url: "/register",
+        method: "post",
+        data
+
+
+    })
+
+}
 // 3.获取用户详情
 // export const getUserInfo = (id) => {
 // return axios({
