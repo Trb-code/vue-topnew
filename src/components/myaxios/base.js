@@ -3,12 +3,15 @@ import axios from "axios"
 // 基准地址
 axios.defaults.baseURL = 'http://localhost:3000'
 
+// 设置服务器地址
+localStorage.setItem("serveurl", axios.defaults.baseURL)
+
 // 拦截器
 
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
-    console.log(config);
+    // console.log(config);
     let token = localStorage.getItem("newtoken")
     // 如果有token值，则添加请求头设置
     if (token) {
@@ -22,7 +25,7 @@ axios.interceptors.request.use(function (config) {
 
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
-    console.log(response);
+    // console.log(response);
 
     // 对响应数据做点什么
     return response;

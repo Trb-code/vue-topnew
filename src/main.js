@@ -5,8 +5,45 @@ import router from "@/router/router.js"
 // vant 组件
 import {
   Toast
+} from 'vant';
+import {
+  Icon
+} from 'vant';
+import {
+  Uploader
+} from 'vant';
+import {
+  Picker
+} from 'vant';
+
+// 调用vant 弹窗 import { Dialog } from 'vant';
+import {
+  Dialog
+} from 'vant';
+// vant 输入框
+import {
+  Field
+} from 'vant';
+
+import {
+  Notify
 } from 'vant'
+import {
+  Tab,
+  Tabs
+} from 'vant'
+
+
+
 Vue.use(Toast)
+Vue.use(Icon)
+Vue.use(Uploader)
+Vue.use(Dialog)
+Vue.use(Field)
+Vue.use(Picker)
+Vue.use(Notify)
+Vue.use(Tab).use(Tabs)
+
 
 Vue.config.productionTip = false
 

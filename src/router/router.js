@@ -3,11 +3,19 @@ import vuerouter from "vue-router"
 
 import logo from "@/views/logo.vue"
 import personal from "../views/personal.vue"
+import editpersonal from "../views/editpersonal.vue"
+import index from "../views/index.vue"
+
 
 vue.use(vuerouter)
 
 var router = new vuerouter({
     routes: [{
+            name: "index",
+            path: "/",
+            component: index
+        },
+        {
             name: "logo",
             path: "/logo",
             component: logo
@@ -16,6 +24,11 @@ var router = new vuerouter({
             name: "personal",
             path: "/personal/:id",
             component: personal
+        },
+        {
+            name: "editpersonal",
+            path: "/editpersonal/:id",
+            component: editpersonal
         }
     ]
 })

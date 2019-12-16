@@ -31,3 +31,30 @@ export const personal = (id) => {
 // url: `/user/${id}`
 // })
 // }
+
+// 编辑用户详情
+export const edituser = (id, data) => {
+    return axios({
+        url: `/user_update/${id}`,
+        method: "post",
+        data
+
+    })
+}
+
+// 栏目列表
+export const newlist = () => {
+    return axios({
+        url: "/category",
+
+    })
+}
+
+// 获取栏目新闻数据
+export const getnewlist = (params) => {
+    return axios({
+        url: "/post",
+        params
+
+    })
+}
