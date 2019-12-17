@@ -1,20 +1,27 @@
 <template>
-  <div class="single">
-    <div class="left">
-      <p class="content">{{post.title}}</p>
-      <p class="info">
-        <span>{{post.user.nickname}}</span>
-        <span>{{post.categories.comment_length}跟帖</span>
-      </p>
+  <div @click="$router.push({path:`/newsarticle/${post.id}` } )" v-if="post.type===1">
+    <div class="single">
+      <div class="left">
+        <p class="content">{{post.title}}</p>
+        <p class="info">
+          <span>{{post.user.nickname}}</span>
+          <span>{{post.categories.comment_length}}跟帖</span>
+        </p>
+      </div>
+      <img :src="post.cover[0].url" alt />
     </div>
-    <img :src="post.cover[0].url" alt />
   </div>
 </template>
 
 <script>
 export default {
   // post:当前需要渲染的新闻对象
-  props: ["post"]
+  props: ["post"],
+  methods: {
+    handclick() {
+      this.$emit("click");
+    }
+  }
 };
 </script>
 

@@ -22,7 +22,7 @@
       />
     </van-dialog>
     <!-- 密码 ————————————————————————————————————————————————————————————————————————————————————————-->
-    <van-dialog v-model="psw" title="修改密码" show-cancel-button>
+    <van-dialog v-model="psw" title="修改密码" show-cancel-button @confirm="uppsw">
       <van-field required label="原密码" ref="oldpsw" @blur="handblur" />
       <van-field label="新密码" placeholder="请输入新密码" ref="newpsw" required />
     </van-dialog>
@@ -41,7 +41,7 @@
 import editheader from "../components/editheader";
 import personalcenter from "@/components/personalcell.vue";
 import { upolad } from "../components/myaxios/upload.js";
-import { edituser } from "../components/myaxios/API.js";
+import { edituser, personal } from "../components/myaxios/API.js";
 
 export default {
   data() {
@@ -60,20 +60,24 @@ export default {
     personalcenter
   },
   mounted() {
-    // 实现获取编辑数据
+    // 实现获取用户数据
     this.id = this.$route.params.id;
     console.log(this.$route);
-    edituser(this.id)
+    personal(this.id)
       .then(res => {
         console.log(res);
-        // 获取到的数据放在空对象里面
-        this.curruser = res.data.data;
 
-        // head_img地址不完整，需要加上服务器地址
+        this.curruser = res.data.data;
         this.curruser.head_img =
           localStorage.getItem("serveurl") + res.data.data.head_img;
+
         console.log(this.curruser);
+
+        // 获取到的数据放在空对象里面
+
+        // head_img地址不完整，需要加上服务器地址
       })
+
       .catch(err => {
         console.log(err);
       });
@@ -121,19 +125,18 @@ export default {
       }
     },
     // 修改密码--------------------------------------------------------------------------------------
-    handblur() {
+    async handblur() {
       // 获取原密码输入的内容
       // console.log(this.$refs.oldpsw.$refs.input.value);
       let oldpsw = this.$refs.oldpsw.$refs.input.value;
+
       console.log(this.curruser);
 
       if (this.curruser.password === oldpsw) {
-        // let resp = await edituser(this.id, {
-        //   password: oldpsw
-        // });
-        alert("555");
-        // this.$refs.newpsw.$refs.input.value;
-        // console.log(this.$refs.newpsw.$refs.input.value);
+        let resp = await edituser(this.id, { password: oldpsw });
+        console.log(resp);
+      } else {
+        this.$notify({ type: "danger", message: "原密码不一致，请重试" });
       }
     },
 

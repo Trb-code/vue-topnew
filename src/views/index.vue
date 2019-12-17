@@ -8,7 +8,7 @@
       <div class="center">
         <van-icon name="search" />&nbsp;&nbsp;&nbsp;搜索商品
       </div>
-      <div class="right">
+      <div class="right" @click="jump">
         <van-icon name="https://b.yzcdn.cn/vant/icon-demo-1126.png" />
       </div>
     </div>
@@ -17,8 +17,18 @@
       <van-tabs v-model="active" sticky swipeable>
         <!-- 循环遍历，显示出每一项 -->
         <van-tab :title="cate.name" v-for="cate in catelist" :key="cate.id">
-          <!-- 遍历每一项新闻 -->
-          <newblock v-for="post in cate.postlist" :key="post.id" :post="post"></newblock>
+          <van-list
+            v-model="cate.loading"
+            :finished="cate.finished"
+            finished-text="没有更多了"
+            @load="onLoad"
+          >
+            <!-- 下拉刷新------------------------------------------------------ -->
+            <van-pull-refresh v-model="cate.isLoading" @refresh="onRefresh">
+              <!-- 单组件遍历循环，显示新闻详情-------------------------------- -->
+              <newblock v-for="post in cate.postlist" :key="post.id" :post="post"></newblock>
+            </van-pull-refresh>
+          </van-list>
         </van-tab>
       </van-tabs>
     </div>
@@ -45,26 +55,32 @@ export default {
       catelist: []
     };
   },
-  // 监听索引值变化，加载新闻
+  // 监听索引值变化，加载新闻-------------------
   watch: {
     active() {
-      this.getnews();
+      if (this.catelist[this.active].postlist.length === 0) {
+        this.getnews();
+      }
     }
   },
 
   async mounted() {
     let res = await newlist();
     console.log(res);
+    this.id = res.data.data.id;
 
     if (res.status === 200) {
       this.catelist = res.data.data;
-      //   数据改造
+      //   数据改造--------------------
       this.catelist = this.catelist.map(value => {
         return {
           ...value,
           postlist: [],
           pageIndex: 1,
-          pageSize: 5
+          pageSize: 6,
+          loading: false,
+          finished: false,
+          isLoading: false
         };
       });
       console.log(this.catelist);
@@ -79,8 +95,46 @@ export default {
         pageSize: this.catelist[this.active].pageSize,
         category: this.catelist[this.active].id
       });
-      console.log(res);
-      this.catelist[this.active].postlist = res.data.data;
+      // console.log(res);
+      // 更新页面数据，后添加进去，res.data.data是数组，需要用到展开运算符
+      this.catelist[this.active].postlist.push(...res.data.data);
+      // 页面加载好，让提示加载中消失
+      this.catelist[this.active].loading = false;
+
+      this.catelist[this.active].isLoading = false;
+      // 判断每一项没有更多数据，底部显示出没有更多了
+      if (res.data.data.length < this.catelist[this.active].pageSize) {
+        this.catelist[this.active].finished = true;
+      }
+    },
+    // 瀑布流滚动加载-----------------------------------------------------------
+    onLoad() {
+      // console.log(123);
+      // 重新更新数据
+      setTimeout(() => {
+        // 瀑布流滚动加载页码加1，显示出新加的数据
+        this.catelist[this.active].pageIndex++;
+        this.getnews();
+      }, 4000);
+    },
+    // 下拉刷新
+    onRefresh() {
+      // console.log(11111);
+      // 刷新让页面回到第一页
+      this.catelist[this.active].pageIndex = 1;
+
+      this.catelist[this.active].finished = false;
+
+      setTimeout(() => {
+        // 清空数据
+        this.catelist[this.active].postlist.length = 0;
+        // 重新加载数据
+        this.getnews();
+      }, 3000);
+    },
+    // 点击用户跳转到个人中心
+    jump() {
+      this.$router.push(`/personal/${window.localStorage.getItem("id")}`);
     }
   }
 };

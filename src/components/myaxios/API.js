@@ -69,3 +69,28 @@ export const getnewlist = (params) => {
 
     })
 }
+
+// 新闻详情
+export const newsart = (id) => {
+    return axios({
+        url: `/post/${id}`,
+        id
+    })
+}
+
+// 关注用户  
+export const follows = (id) => {
+    return axios({
+        url: `/user_follows/${id}`,
+        id
+    })
+}
+
+// 取消关注
+
+export const unfollows = (id) => {
+    return axios({
+        url: `/user_unfollow/${id}`,
+        id
+    })
+}

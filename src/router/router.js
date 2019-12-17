@@ -6,6 +6,8 @@ import personal from "../views/personal.vue"
 import editpersonal from "../views/editpersonal.vue"
 import index from "../views/index.vue"
 import register from "../views/register.vue"
+// 新闻详情
+import newsarticle from "../components/newsart.vue"
 
 
 vue.use(vuerouter)
@@ -35,6 +37,11 @@ var router = new vuerouter({
             name: "editpersonal",
             path: "/editpersonal/:id",
             component: editpersonal
+        },
+        {
+            name: "newsarticle",
+            path: "/newsarticle/:id",
+            component: newsarticle
         }
     ]
 })

@@ -31,7 +31,13 @@ import {
 import {
   Tab,
   Tabs
+} from 'vant';
+import {
+  PullRefresh
 } from 'vant'
+import {
+  List
+} from 'vant';
 
 
 
@@ -43,6 +49,8 @@ Vue.use(Field)
 Vue.use(Picker)
 Vue.use(Notify)
 Vue.use(Tab).use(Tabs)
+Vue.use(PullRefresh)
+Vue.use(List)
 
 
 Vue.config.productionTip = false

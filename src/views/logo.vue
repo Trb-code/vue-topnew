@@ -59,10 +59,13 @@ export default {
           console.log(res);
           // 登录成功
           if (res.data.message === "登录成功") {
-            // 登录成功需要跳转的页面
-            this.$router.push({ path: `/personal/${res.data.data.user.id}` });
             // 本地储蓄token值，后续需要用到
             localStorage.setItem("newtoken", res.data.data.token);
+            // 储蓄用户id
+            localStorage.setItem("id", res.data.data.user.id);
+
+            // 登录成功需要跳转的页面
+            this.$router.push({ path: `/personal/${res.data.data.user.id}` });
           } else {
             // 登录失败
             this.$toast.fail(res.data.message);
