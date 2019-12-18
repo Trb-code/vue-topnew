@@ -8,6 +8,8 @@ import index from "../views/index.vue"
 import register from "../views/register.vue"
 // 新闻详情
 import newsarticle from "../components/newsart.vue"
+// 我是关注
+import myfocus from "../views/myfocus.vue"
 
 
 vue.use(vuerouter)
@@ -22,6 +24,11 @@ var router = new vuerouter({
             name: "register",
             path: "/register",
             component: register
+        },
+        {
+            name: "myfocus",
+            path: "/myfocus",
+            component: myfocus
         },
         {
             name: "logo",

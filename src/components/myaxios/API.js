@@ -110,3 +110,11 @@ export const collect = (id) => {
         id
     })
 }
+
+// 用户关注列表
+export const focusapi = () => {
+    return axios({
+        url: `/user_follows`,
+
+    })
+}

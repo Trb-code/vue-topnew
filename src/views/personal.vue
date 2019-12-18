@@ -18,7 +18,7 @@
       </div>
     </router-link>
     <!-- 单元格 -->
-    <personalcenter title="我的关注" text="关注用户"></personalcenter>
+    <personalcenter title="我的关注" text="关注用户" @click="$router.push({name:'myfocus'})"></personalcenter>
     <personalcenter title="我的跟帖" text="跟帖/回复"></personalcenter>
     <personalcenter title="我的收藏" text="文章/视频"></personalcenter>
     <personalcenter title="设置"></personalcenter>

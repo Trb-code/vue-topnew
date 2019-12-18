@@ -4,7 +4,7 @@
       <input type="text" placeholder="写跟帖" @focus="handlerFocus" />
       <span class="comment">
         <i class="iconfont iconpinglun-"></i>
-        <em>100</em>
+        <em>{{news.comment_length}}</em>
       </span>
       <i class="iconfont iconshoucang" :class="{shoucang:news.has_star}" @click="start"></i>
       <i class="iconfont iconfenxiang"></i>
