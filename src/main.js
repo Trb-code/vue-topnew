@@ -38,9 +38,14 @@ import {
 import {
   List
 } from 'vant';
+import {
+  SwipeCell
+} from 'vant';
+import {
+  Button
+} from 'vant';
 
-
-
+Vue.use(Button);
 Vue.use(Toast)
 Vue.use(Icon)
 Vue.use(Uploader)
@@ -51,6 +56,7 @@ Vue.use(Notify)
 Vue.use(Tab).use(Tabs)
 Vue.use(PullRefresh)
 Vue.use(List)
+Vue.use(SwipeCell)
 
 
 Vue.config.productionTip = false

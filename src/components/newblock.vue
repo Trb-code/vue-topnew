@@ -1,5 +1,5 @@
 <template>
-  <div @click="$router.push({path:`/newsarticle/${post.id}` } )" v-if="post.type===1">
+  <div @click="$router.push({path:`/newsarticle/${post.id}` } )">
     <div class="single">
       <div class="left">
         <p class="content">{{post.title}}</p>

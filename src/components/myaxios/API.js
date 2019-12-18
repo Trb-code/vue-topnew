@@ -127,3 +127,12 @@ export const myclooect = () => {
         url: `/user_star`,
     })
 }
+
+
+// 评论列表
+export const allcomment = (id, params) => {
+    return axios({
+        url: `/post_comment/${id}`,
+        params
+    })
+}

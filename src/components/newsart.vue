@@ -27,16 +27,16 @@
     <!-- 精彩跟帖 -->
     <div class="keeps">
       <h2>精彩跟帖</h2>
-      <div class="item">
+      <div class="item" v-for="item in allcomment" :key="item.id">
         <div class="head">
-          <img src="../assets/logo.png" alt />
+          <img :src="item.head_img" alt />
           <div>
-            <p>火星网友</p>
+            <p>{{item.user.nickname}}</p>
             <span>2小时前</span>
           </div>
           <span>回复</span>
         </div>
-        <div class="text">文章说得很有道理</div>
+        <div class="text">{{item.content}}</div>
       </div>
       <div class="more">更多跟帖</div>
     </div>
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { newsart, follows, unfollows, like } from "./myaxios/API";
+import { newsart, follows, unfollows, like, allcomment } from "./myaxios/API";
 // 引入评论组件
 import comment from "./comment";
 
@@ -56,7 +56,8 @@ export default {
   },
   data() {
     return {
-      news: {}
+      news: {},
+      allcomment: []
     };
   },
 
@@ -69,7 +70,19 @@ export default {
       this.news = res.data.data;
     }
     console.log(this.news);
+    // 评论列表渲染------------------------------{ pageSize:3} 可以实现每一页显示多少条的数据-------------------
+    let res3 = await allcomment(this.news.id, { pageSize: 3 });
+    console.log(res3);
+    if (res3.status === 200) {
+      this.allcomment = res3.data.data;
+    }
+    // 数据改造
+    res3.data.data.map(value => {
+      value.head_img = localStorage.getItem("serveurl") + value.head_img;
+      return value;
+    });
   },
+
   methods: {
     // 关注和已关注切换-------------------------------------->
     async follow() {
