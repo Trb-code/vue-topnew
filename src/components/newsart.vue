@@ -40,13 +40,20 @@
       </div>
       <div class="more">更多跟帖</div>
     </div>
+
+    <comment :news="news"></comment>
   </div>
 </template>
 
 <script>
 import { newsart, follows, unfollows, like } from "./myaxios/API";
+// 引入评论组件
+import comment from "./comment";
 
 export default {
+  components: {
+    comment
+  },
   data() {
     return {
       news: {}
@@ -57,7 +64,7 @@ export default {
   async mounted() {
     // let id = this.$route.params.id;
     let res = await newsart(this.$route.params.id);
-    console.log(res);
+    // console.log(res);
     if (res.status === 200) {
       this.news = res.data.data;
     }
@@ -78,7 +85,7 @@ export default {
     // 点击收藏切换----------------------------------------------------------------
     async handlike() {
       let res = await like(this.news.id);
-      console.log(res);
+      // console.log(res);
 
       if (res.data.message === "点赞成功") {
         this.news.like_length++;

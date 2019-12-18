@@ -102,3 +102,11 @@ export const like = (id) => {
         id
     })
 }
+
+// 收藏文章
+export const collect = (id) => {
+    return axios({
+        url: `/post_star/${id}`,
+        id
+    })
+}
