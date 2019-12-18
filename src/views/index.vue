@@ -50,7 +50,7 @@ export default {
   },
   data() {
     return {
-      // 是否有登录    红色下划线设置在头条下面
+      // 是否有登录    红色下划线设置在头条下面--------------------
       active: localStorage.getItem("newtoken") ? 1 : 0,
       catelist: []
     };
@@ -66,12 +66,12 @@ export default {
 
   async mounted() {
     let res = await newlist();
-    console.log(res);
+    // console.log(res);
     this.id = res.data.data.id;
 
     if (res.status === 200) {
       this.catelist = res.data.data;
-      //   数据改造--------------------
+      //   数据改造------------------------------------------------
       this.catelist = this.catelist.map(value => {
         return {
           ...value,
@@ -83,7 +83,7 @@ export default {
           isLoading: false
         };
       });
-      console.log(this.catelist);
+      // console.log(this.catelist);
       this.getnews();
     }
   },
@@ -115,9 +115,9 @@ export default {
         // 瀑布流滚动加载页码加1，显示出新加的数据
         this.catelist[this.active].pageIndex++;
         this.getnews();
-      }, 4000);
+      }, 1000);
     },
-    // 下拉刷新
+    // 下拉刷新-------------------------------------------------------------------------------
     onRefresh() {
       // console.log(11111);
       // 刷新让页面回到第一页
@@ -130,9 +130,9 @@ export default {
         this.catelist[this.active].postlist.length = 0;
         // 重新加载数据
         this.getnews();
-      }, 3000);
+      }, 1000);
     },
-    // 点击用户跳转到个人中心
+    // 点击用户跳转到个人中心,登录成功，本地储存ID-----------------------------------------------------------------
     jump() {
       this.$router.push(`/personal/${window.localStorage.getItem("id")}`);
     }

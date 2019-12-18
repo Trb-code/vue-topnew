@@ -5,7 +5,7 @@
         <van-icon name="arrow-left back" @click="$router.back()" />
         <span class="iconfont iconnew new"></span>
       </div>
-      <span @click="follows" :class="{follow:news.has_follow}">{{news.has_follow?"已关注":"关注"}}</span>
+      <span @click="follow" :class="{follow:news.has_follow}">{{news.has_follow?"已关注":"关注"}}</span>
     </div>
     <div class="detail">
       <div class="title">{{news.title}}</div>
@@ -16,7 +16,8 @@
       <div class="content" v-html="news.content"></div>
       <div class="opt">
         <span class="like">
-          <van-icon name="good-job-o" />点赞
+          <van-icon name="good-job-o" />
+          点赞{{news.like_length}}
         </span>
         <span class="chat">
           <van-icon name="chat" class="w" />微信
@@ -48,43 +49,30 @@ import { newsart, follows, unfollows } from "./myaxios/API";
 export default {
   data() {
     return {
-      news: ""
+      news: {}
     };
   },
 
   // 获取页面数据----------------------->
   async mounted() {
-    let id = this.$route.params.id;
-    let res = await newsart(id);
+    // let id = this.$route.params.id;
+    let res = await newsart(this.$route.params.id);
     console.log(res);
     if (res.status === 200) {
       this.news = res.data.data;
     }
+    console.log(this.news);
   },
   methods: {
-    // 关注切换------------------------------>
-    async follows() {
-      //   let res;
-      //   if (this.news.has_follow === false) {
-      //     this.news.id;
-      //     let res = await follows(this.news.id);
-      //     console.log(res);
-      //   } else {
-      //     res = await unfollows(this.news.id);
-      //   }
-      //   // this.$toast.success(res.data.message);
-      //   console.log(res);
-
-      //   this.news.has_follow = !this.news.has_follow;
-      // }
+    // 关注和已关注切换-------------------------------------->
+    async follow() {
+      this.news.has_follow = !this.news.has_follow;
       if (this.news.has_follow === false) {
-        let res = await follows(this.news.id);
+        let res = await unfollows(this.news.user.id);
         console.log(res);
-        this.news.has_follow = true;
       } else {
-        let res = await unfollows(this.news.id);
+        let res = await follows(this.news.user.id);
         console.log(res);
-        this.news.has_follow = false;
       }
     }
   }
@@ -120,10 +108,6 @@ export default {
     text-align: center;
     border-radius: 15px;
     font-size: 13px;
-    &.follow {
-      background-color: red;
-      color: #eee;
-    }
   }
 }
 .detail {
@@ -220,6 +204,11 @@ export default {
   img {
     width: 100%;
     box-sizing: border-box;
+    display: block;
   }
+}
+.follow {
+  background-color: red !important;
+  color: #eee;
 }
 </style>

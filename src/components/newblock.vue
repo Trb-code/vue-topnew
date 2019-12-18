@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  // post:当前需要渲染的新闻对象
+  // post:当前需要渲染的新闻对象----------------
   props: ["post"],
   methods: {
     handclick() {
