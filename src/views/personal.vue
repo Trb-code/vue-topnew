@@ -20,7 +20,7 @@
     <!-- 单元格 -->
     <personalcenter title="我的关注" text="关注用户" @click="$router.push({name:'myfocus'})"></personalcenter>
     <personalcenter title="我的跟帖" text="跟帖/回复"></personalcenter>
-    <personalcenter title="我的收藏" text="文章/视频"></personalcenter>
+    <personalcenter title="我的收藏" text="文章/视频" @click="$router.push({name:'mycollect'})"></personalcenter>
     <personalcenter title="设置"></personalcenter>
     <span slot="right" class="tuichu" @click="back">退出</span>
   </div>
