@@ -94,3 +94,11 @@ export const unfollows = (id) => {
         id
     })
 }
+
+// 点赞api
+export const like = (id) => {
+    return axios({
+        url: `/post_like/${id}`,
+        id
+    })
+}

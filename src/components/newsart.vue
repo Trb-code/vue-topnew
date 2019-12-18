@@ -15,7 +15,7 @@
       </div>
       <div class="content" v-html="news.content"></div>
       <div class="opt">
-        <span class="like">
+        <span class="like" @click="handlike" :class="{likes:news.has_like}">
           <van-icon name="good-job-o" />
           点赞{{news.like_length}}
         </span>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { newsart, follows, unfollows } from "./myaxios/API";
+import { newsart, follows, unfollows, like } from "./myaxios/API";
 
 export default {
   data() {
@@ -74,6 +74,18 @@ export default {
         let res = await follows(this.news.user.id);
         console.log(res);
       }
+    },
+    // 点击收藏切换----------------------------------------------------------------
+    async handlike() {
+      let res = await like(this.news.id);
+      console.log(res);
+
+      if (res.data.message === "点赞成功") {
+        this.news.like_length++;
+      } else {
+        this.news.like_length--;
+      }
+      this.news.has_like = !this.news.has_like;
     }
   }
 };
@@ -142,6 +154,7 @@ export default {
     text-align: center;
     border: 1px solid #ccc;
     border-radius: 15px;
+    color: #ccc;
   }
   .w {
     color: rgb(84, 163, 5);
@@ -210,5 +223,9 @@ export default {
 .follow {
   background-color: red !important;
   color: #eee;
+}
+.likes {
+  color: red !important;
+  border: 3px solid red !important;
 }
 </style>
