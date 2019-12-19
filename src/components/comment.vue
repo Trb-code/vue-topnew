@@ -2,7 +2,7 @@
   <div class="comment">
     <div class="addcomment" v-show="!isFocus">
       <input type="text" placeholder="写跟帖" @focus="handlerFocus" />
-      <span class="comment">
+      <span class="comment" @click="$router.push({path:`/goodcomment/${news.id}`})">
         <i class="iconfont iconpinglun-"></i>
         <em>{{news.comment_length}}</em>
       </span>

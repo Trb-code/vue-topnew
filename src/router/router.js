@@ -11,6 +11,8 @@ import newsarticle from "../components/newsart.vue"
 // 我是关注
 import myfocus from "../views/myfocus.vue"
 import mycollect from "../views/mycollect.vue"
+import goodcomment from "../views/goodcomment.vue"
+
 
 
 vue.use(vuerouter)
@@ -55,6 +57,11 @@ var router = new vuerouter({
             name: "newsarticle",
             path: "/newsarticle/:id",
             component: newsarticle
+        },
+        {
+            name: "goodcomment",
+            path: "/goodcomment/:id",
+            component: goodcomment
         }
     ]
 })

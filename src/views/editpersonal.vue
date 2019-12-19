@@ -125,19 +125,29 @@ export default {
       }
     },
     // 修改密码--------------------------------------------------------------------------------------
+    // 旧密码失去焦点判断是否跟原密码一样
     async handblur() {
       // 获取原密码输入的内容
       // console.log(this.$refs.oldpsw.$refs.input.value);
       let oldpsw = this.$refs.oldpsw.$refs.input.value;
+      // let newpsw = this.$refs.newpsw.$refs.input.value;
 
-      console.log(this.curruser);
+      // console.log(this.curruser);
 
-      if (this.curruser.password === oldpsw) {
-        let resp = await edituser(this.id, { password: oldpsw });
-        console.log(resp);
+      if (this.curruser.password === oldpsw && oldpsw != null) {
+        // let newpsw = this.$refs.newpsw.$refs.input.value;
+        // let resp = await edituser(this.id, { password: newpsw });
+        // console.log(resp);
+        // this.uppsw();
       } else {
         this.$notify({ type: "danger", message: "原密码不一致，请重试" });
       }
+    },
+    // 点击确定修改密码
+    async uppsw() {
+      let newpsw = this.$refs.newpsw.$refs.input.value;
+      let resp = await edituser(this.id, { password: newpsw });
+      console.log(resp);
     },
 
     // 修改性别——————————————————————————————————————————————————————————————————————————————————————————————————
