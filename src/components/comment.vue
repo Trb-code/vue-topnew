@@ -6,11 +6,9 @@
         <i class="iconfont iconpinglun-"></i>
         <em>{{news.comment_length}}</em>
       </span>
-      <i class="iconfont iconshoucang" :class="{shoucang:news.has_star}" @click="start"></i>
-      <i class="iconfont iconfenxiang"></i>
     </div>
     <div class="inputcomment" v-show="isFocus">
-      <textarea ref="commtext" rows="5"></textarea>
+      <textarea ref="commtext" rows="5" :placeholder="placeholder"></textarea>
       <div>
         <span>发送</span>
         <span @click="isFocus=false">取消</span>
@@ -23,11 +21,18 @@
 <script>
 import { collect } from "./myaxios/API";
 export default {
-  props: ["news"],
+  props: ["news", "soncomment"],
   data() {
     return {
-      isFocus: false
+      isFocus: false,
+      placeholder: ""
     };
+  },
+  watch: {
+    soncomment() {
+      this.isFocus = true;
+      this.placeholder = "@" + this.soncomment.user.nickname;
+    }
   },
   methods: {
     //   获取焦点时触发----------
@@ -59,6 +64,8 @@ export default {
   position: fixed;
   bottom: 0;
   left: 0;
+  border: 1px solid #ccc;
+  margin: 10px;
 }
 .inputcomment {
   padding: 10px;

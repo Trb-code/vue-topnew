@@ -119,6 +119,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #ccc;
+
   > .left {
     height: 100%;
     vertical-align: middle;

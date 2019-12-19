@@ -12,17 +12,22 @@
             <p>{{commentlist.user.nickname}}</p>
             <span>2小时前</span>
           </div>
-          <span class="huifu">回复 &nbsp;</span>
+          <!-- 点击发送 存好数据 -->
+          <span class="huifu" @click="fathercomment(commentlist)">回复 &nbsp;</span>
         </div>
 
         <!-- 评论块组件---------------------------------------------- -->
-        <commentblock></commentblock>
+
+        <!--v-if:判断是否需要生成评论块，如果有parent说明有上一级则需要生成  -->
+        <!-- :commentlist：你需要生成的评论块的数据源 -->
+        <commentblock v-if="commentlist.parent" :blockcomment="commentlist.parent"></commentblock>
 
         <div class="text">{{commentlist.content}}</div>
       </div>
     </div>
-    <!-- 调用底部评论组件，绑定goodcomment内容渲染---------------------- -->
-    <sendcomment :news="goodcomment"></sendcomment>
+    <!-- 调用底部评论组件，绑定goodcomment传递数据 -->
+    <!-- :soncomment="fathercommlist" 为了实现父传子 -->
+    <sendcomment :news="goodcomment" :soncomment="fathercommlist"></sendcomment>
   </div>
 </template>
 
@@ -42,13 +47,16 @@ export default {
   },
   data() {
     return {
-      goodcomment: []
+      goodcomment: [],
+      //   定义第三方变量，存给子组件
+      fathercommlist: {}
     };
   },
   async mounted() {
     let id = this.$route.params.id;
     let res = await allcomment(id);
     console.log(res);
+
     if (res.status === 200) {
       this.goodcomment = res.data.data;
       res.data.data.map(value => {
@@ -56,6 +64,12 @@ export default {
           localStorage.getItem("serveurl") + value.user.head_img;
         return value;
       });
+    }
+  },
+  methods: {
+    //   fathercommlist数据传给 comment子组件soncomment 27行
+    fathercomment(commentlist) {
+      this.fathercommlist = commentlist;
     }
   }
 };

@@ -1,35 +1,37 @@
 <template>
   <div class="item">
+    <!-- 调用组件自己------------------------------------------- -->
+    <mygoodcommentblock v-if="blockcomment.parent" :blockcomment="blockcomment.parent"></mygoodcommentblock>
     <div class="head">
-      <img src alt />
       <div>
-        <p>网友</p>
+        <p>{{blockcomment.user.nickname}}</p>
         <span>2小时前</span>
       </div>
       <span>回复</span>
     </div>
-    <div class="text">评论内容</div>
+    <div class="text">{{blockcomment.content}}</div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  // 接受父组件传过来的数据，然后动态渲染
+  props: ["blockcomment"],
+  // 注册当前组件 实现嵌套
+  name: "mygoodcommentblock"
+};
 </script>
 
 <style lang="less" scoped>
 .item {
   padding: 10px 0;
   border: 1px solid #ccc;
+  margin: 10px;
   .head {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    > img {
-      width: 50/360 * 100vw;
-      height: 50/360 * 100vw;
-      display: block;
-      border-radius: 50%;
-    }
+
     > div {
       flex: 1;
       display: flex;
