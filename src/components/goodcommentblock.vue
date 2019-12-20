@@ -1,13 +1,17 @@
 <template>
   <div class="item">
     <!-- 调用组件自己------------------------------------------- -->
-    <mygoodcommentblock v-if="blockcomment.parent" :blockcomment="blockcomment.parent"></mygoodcommentblock>
+    <mygoodcommentblock
+      v-if="blockcomment.parent"
+      :blockcomment="blockcomment.parent"
+      @fathercomment="commentblock"
+    ></mygoodcommentblock>
     <div class="head">
       <div>
         <p>{{blockcomment.user.nickname}}</p>
         <span>2小时前</span>
       </div>
-      <span>回复</span>
+      <span @click="commentblock(blockcomment)">回复</span>
     </div>
     <div class="text">{{blockcomment.content}}</div>
   </div>
@@ -18,7 +22,12 @@ export default {
   // 接受父组件传过来的数据，然后动态渲染
   props: ["blockcomment"],
   // 注册当前组件 实现嵌套
-  name: "mygoodcommentblock"
+  name: "mygoodcommentblock",
+  methods: {
+    commentblock(blockcomment) {
+      this.$emit("fathercomment", blockcomment);
+    }
+  }
 };
 </script>
 

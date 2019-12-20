@@ -136,3 +136,12 @@ export const allcomment = (id, params) => {
         params
     })
 }
+
+// 点击发送评论
+export const sendcomment = (id, data) => {
+    return axios({
+        url: `/post_comment/${id}`,
+        method: "post",
+        data
+    })
+}

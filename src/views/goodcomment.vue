@@ -20,14 +20,19 @@
 
         <!--v-if:判断是否需要生成评论块，如果有parent说明有上一级则需要生成  -->
         <!-- :commentlist：你需要生成的评论块的数据源 -->
-        <commentblock v-if="commentlist.parent" :blockcomment="commentlist.parent"></commentblock>
+        <commentblock
+          v-if="commentlist.parent"
+          :blockcomment="commentlist.parent"
+          @fathercomment="fathercomment"
+        ></commentblock>
 
         <div class="text">{{commentlist.content}}</div>
       </div>
     </div>
     <!-- 调用底部评论组件，绑定goodcomment传递数据 -->
     <!-- :soncomment="fathercommlist" 为了实现父传子 -->
-    <sendcomment :news="goodcomment" :soncomment="fathercommlist"></sendcomment>
+    <!-- @cancelplay="fathercommlist= null"  点击子组件评论框取消，实现清空所监听的数据 -->
+    <sendcomment :news="arct" :soncomment="fathercommlist" @cancelplay="fathercommlist= null"></sendcomment>
   </div>
 </template>
 
@@ -49,17 +54,19 @@ export default {
     return {
       goodcomment: [],
       //   定义第三方变量，存给子组件
-      fathercommlist: {}
+      fathercommlist: {},
+      arct: {}
     };
   },
   async mounted() {
     let id = this.$route.params.id;
     let res = await allcomment(id);
+    // this.arct = res.data.data;
     console.log(res);
+    // console.log(this.goodcomment);
 
     if (res.status === 200) {
-      this.goodcomment = res.data.data;
-      res.data.data.map(value => {
+      this.goodcomment = res.data.data.map(value => {
         value.user.head_img =
           localStorage.getItem("serveurl") + value.user.head_img;
         return value;

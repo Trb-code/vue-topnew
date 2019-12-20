@@ -6,12 +6,14 @@
         <i class="iconfont iconpinglun-"></i>
         <em>{{news.comment_length}}</em>
       </span>
+      <i class="iconfont iconshoucang" :class="{shoucang:news.has_star}" @click="start"></i>
+      <i class="iconfont iconfenxiang"></i>
     </div>
     <div class="inputcomment" v-show="isFocus">
       <textarea ref="commtext" rows="5" :placeholder="placeholder"></textarea>
       <div>
-        <span>发送</span>
-        <span @click="isFocus=false">取消</span>
+        <span @click="fasongclick">发送</span>
+        <span @click="cancel">取消</span>
       </div>
     </div>
   </div>
@@ -19,7 +21,7 @@
 
 
 <script>
-import { collect } from "./myaxios/API";
+import { collect, sendcomment } from "./myaxios/API";
 export default {
   props: ["news", "soncomment"],
   data() {
@@ -30,8 +32,12 @@ export default {
   },
   watch: {
     soncomment() {
-      this.isFocus = true;
-      this.placeholder = "@" + this.soncomment.user.nickname;
+      // 实现监听，有这个值才监听
+      if (this.soncomment) {
+        this.isFocus = true;
+        this.placeholder = "@" + this.soncomment.user.nickname;
+        console.log(22);
+      }
     }
   },
   methods: {
@@ -41,8 +47,15 @@ export default {
       setTimeout(() => {
         this.$refs.commtext.focus();
       }, 1);
-      console.log(this.news);
+      // console.log(this.$route.params.id);
     },
+
+    // 点击评论框取消，实现取消和点同一回复实现再次弹框
+    cancel() {
+      this.isFocus = false;
+      this.$emit("cancelplay");
+    },
+
     // 点击星星收藏文章切换----------------------------------->
     async start() {
       let res = await collect(this.news.id);
@@ -53,6 +66,30 @@ export default {
         this.$toast("取消收藏");
       }
       this.news.has_star = !this.news.has_star;
+    },
+    // 点击发送顶级评论
+    async fasongclick() {
+      // 准备需要发送的数据
+      let id = this.$route.params.id;
+      let data = {
+        content: this.$refs.commtext.value,
+        parent_id: ""
+      };
+      if (this.soncomment) {
+        data.parent_id = this.soncomment.id;
+      }
+      console.log(this.soncomment);
+
+      let ressend = await sendcomment(id, data);
+      console.log(ressend);
+      // console.log(this.news.id);
+      if (ressend.data.message === "评论发布成功") {
+        this.$toast.success(ressend.data.message);
+        // 关闭窗口
+        this.isFocus = false;
+        // 刷新页面
+        location.reload();
+      }
     }
   }
 };
